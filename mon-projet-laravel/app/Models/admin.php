@@ -3,9 +3,13 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use App\Models\User;
 
-class Client extends Model
+class admin extends Model
 {
+    use HasFactory;
     protected $fillable = [
         'user_id',
     ];
@@ -14,5 +18,4 @@ class Client extends Model
     {
         return $this->belongsTo(User::class);
     }
-    
 }

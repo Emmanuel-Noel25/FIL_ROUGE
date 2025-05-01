@@ -4,10 +4,13 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use App\Models\Client; // Assuming you have a Client model
+use Laravel\Sanctum\HasApiTokens;
+use App\Models\Client;
+use App\Models\Prestataire;
+use App\Models\Admin;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class User extends Authenticatable
 {
@@ -17,7 +20,7 @@ class User extends Authenticatable
     /**
      * The attributes that are mass assignable.
      *
-     * @var array<int, string>
+     * @var list<string>
      */
     protected $fillable = [
         'name',
@@ -30,7 +33,7 @@ class User extends Authenticatable
     /**
      * The attributes that should be hidden for serialization.
      *
-     * @var array<int, string>
+     * @var list<string>
      */
     protected $hidden = [
         'password',
@@ -50,34 +53,18 @@ class User extends Authenticatable
         ];
     }
 
-    /**
-     * Check if the user has the 'client' role.
-     *
-     * @return bool
-     */
-    public function isClient(): bool
-    {
-        return $this->role === 'client';
+    public function client(){
+        return $this->hasOne(Client::class);
     }
-
-    /**
-     * Check if the user has the 'prestataire' role.
-     *
-     * @return bool
-     */
-    public function isPrestataire(): bool
-    {
-        return $this->role === 'prestataire';
+    public function prestataire(){
+        return $this->hasOne(Prestataire::class);
     }
-
-    /**
-     * Check if the user has a specific role.
-     *
-     * @param string $role
-     * @return bool
-     */
-    public function hasRole(string $role): bool
-    {
-        return $this->role === $role;
+    public function admin(){
+        return $this->hasOne(Admin::class);
     }
+    public function profile()
+{
+    // Adaptez selon votre structure
+    return $this->hasOne(Profile::class);
+}
 }
