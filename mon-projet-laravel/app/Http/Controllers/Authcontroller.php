@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Auth;
 
 
 
@@ -12,10 +13,14 @@ class Authcontroller extends Controller
 {
     public function login(Request $request)
     {
-        $request->validate([
+        $credentials = $request->validate([
             'email' => 'required|email',
             'password' => 'required'
         ]);
+
+        if (Auth::attempt($credentials)) {
+            $request->session()->regenerate();
+        }
     
         $user = User::where('email', $request->email)->first();
     
@@ -59,7 +64,7 @@ class Authcontroller extends Controller
 
     public function register(Request $request)
     {
-        $request->validate([
+        $credentials = $request->validate([
             'name' => 'required|string|max:255',
             'surname' => 'required|string|max:255',
             'role' => 'required|in:client,prestataire,admin',
@@ -84,9 +89,22 @@ class Authcontroller extends Controller
         }
 
         $token = $user->createToken('auth_token')->plainTextToken;
+        Auth::attempt($credentials);
 
         return response()->json([
             'token' => $token,
+            'user' => [
+                'id' => $user->id,
+                'name' => $user->name,
+                'email' => $user->email,
+                'role' => $user->role
+            ]
+        ]);
+
+
+
+        return response()->json([
+            'message' => 'User registered successfully',
             'user' => $user,
         ]);
     }
