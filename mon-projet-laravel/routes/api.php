@@ -19,4 +19,8 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/user-with-profile', [Authcontroller::class, 'userWithProfile']);
     Route::post('/logout', [Authcontroller::class, 'logout']);});
 
+    // routes/api.php
+Route::get('/api/services/search', [ServiceController::class, 'search']);
+
+
 
