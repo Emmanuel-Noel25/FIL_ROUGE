@@ -1,6 +1,6 @@
 <?php
 return [
-    'paths' => ['api/*', 'sanctum/csrf-cookie'],
+    'paths' => ['api/*', 'sanctum/csrf-cookie','prestataire/*'],
     'allowed_methods' => ['*'],
     'allowed_origins' => ['http://localhost:5173'], // Remplacez avec votre URL frontend
     'allowed_origins_patterns' => [],

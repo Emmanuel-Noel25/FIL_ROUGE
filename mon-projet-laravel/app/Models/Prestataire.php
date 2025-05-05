@@ -14,6 +14,7 @@ class Prestataire extends Model
     use HasFactory;
     protected $fillable = [
        'user_id',
+       'description',
     ];
 
     public function user()
@@ -22,6 +23,6 @@ class Prestataire extends Model
     }
     public function services()
     {
-        return $this->hasMany(Service::class);
+        return $this->hasMany(Services::class);
     }
 }

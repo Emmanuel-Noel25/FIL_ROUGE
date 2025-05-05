@@ -13,4 +13,8 @@ class Services extends Model
         'title',
         'price',
      ];
+     public function prestataire ()
+     {
+         return $this->belongsTo(Prestataire::class);
+     }
 }

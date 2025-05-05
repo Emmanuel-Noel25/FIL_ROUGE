@@ -82,8 +82,12 @@ class Authcontroller extends Controller
 
         if ($user->role === 'client') {
             $user->client()->create();
+
         } elseif ($user->role === 'prestataire') {
-            $user->prestataire()->create();
+            $user->prestataire()->create([ 
+                "description" => $request->description ?? null,
+            ]);
+            
         } elseif ($user->role === 'admin') {
             $user->admin()->create();
         }

@@ -3,13 +3,15 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Authcontroller;
+use App\Http\Controllers\PrestataireController;
+
+Route::get('/prestataire/search', [PrestataireController::class, 'search']);
 
 Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/user', function (Request $request) {
         return response()->json($request->user());       // ->load('profile')
     });
 });
-
 
 
 Route::post('/login', [Authcontroller::class, 'login']);

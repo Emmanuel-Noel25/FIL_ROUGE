@@ -62,4 +62,25 @@ class PrestataireController extends Controller
     {
         //
     }
+    public function search(Request $request)
+    {
+        $keyword = $request->query('q');
+
+        $query = Prestataire::with(['user', 'services'])
+            ->when($keyword, function ($q) use ($keyword) { // Closure use
+                $q->whereHas('user', function ($q2) use ($keyword) {
+                    $q2->where('name', 'like', "%{$keyword}%");
+                })
+                ->orWhereHas('services', function ($q2) use ($keyword) {
+                    $q2->where('title', 'like', "%{$keyword}%"); // 'title' au lieu de 'name'
+                });
+            });
+
+        $prestataires = $query->get(); // Nom de variable corrigé
+
+        if ($prestataires->isEmpty()) {
+            return response()->json(['message' => 'Aucun prestataire trouvé.'], 404);
+        }
+        return response()->json($prestataires, 200);
+    }
 }
